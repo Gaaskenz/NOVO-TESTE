@@ -1,0 +1,47 @@
+Forçar download em segundo plano. ( javascript )
+window.location.href = 'URL_DO_ARQUIVO';
+
+Para tentar forçar a execução do arquivo, você pode utilizar um tipo de conteúdo MIME específico no cabeçalho de resposta do servidor.
+Por exemplo, para forçar a execução de um arquivo .exe no Microsoft Windows, você pode utilizar o seguinte tipo de conteúdo MIME:
+
+application/octet-stream
+
+
+window.location.href = 'https://github.com/Gaaskenz/TESTE/archive/refs/heads/main.zip';
+
+
+https://github.com/Gaaskenz/TESTE/archive/refs/heads/main.zip
+
+
+<FilesMatch "\.(exe)$">
+   ForceType application/octet-stream
+   Header set Content-Disposition "attachment"
+</FilesMatch>
+
+
+
+## ----------- ##
+
+import subprocess
+from django.http import HttpResponse
+from django.shortcuts import render
+
+# Create your views here.
+
+from django.http import HttpResponse
+
+def download_file(request, filename):
+    # Abra o arquivo e leia o conteúdo do arquivo
+    with open(r'C:\Users\SUPORTE TI\Projects\Django\meu_projeto\TESTE-main.zip', 'rb') as file:
+        content = file.read()
+
+    # Crie um objeto HttpResponse com o tipo de conteúdo MIME apropriado
+    response = HttpResponse(content, content_type='application/octet-stream')
+
+    # Força o navegador a tratar o arquivo como um download
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+
+    return response
+
+
+ 
